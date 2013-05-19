@@ -48,6 +48,14 @@ func! s:parse_name(arg)
   let arg = a:arg
   let git_proto = exists('g:vundle_default_git_proto') ? g:vundle_default_git_proto : 'https'
 
+  let branch = "master"
+
+  if arg =~ ':'
+      let colonPos = stridx(a:arg, ':')
+      exec "let branch = a:arg[". (colonPos+1) . ":]"
+      exec "let arg = a:arg[0:". (colonPos-1) . "]"
+  endif
+
   if    arg =~? '^\s*\(gh\|github\):\S\+'
   \  || arg =~? '^[a-z0-9][a-z0-9-]*/[^/]\+$'
     let uri = git_proto.'://github.com/'.split(arg, ':')[-1]
@@ -64,7 +72,7 @@ func! s:parse_name(arg)
     let name = arg
     let uri  = git_proto.'://github.com/vim-scripts/'.name.'.git'
   endif
-  return {'name': name, 'uri': uri, 'name_spec': arg }
+  return {'name': name, 'uri': uri, 'name_spec': a:arg, 'branch': branch }
 endf
 
 func! s:rtp_rm_a()

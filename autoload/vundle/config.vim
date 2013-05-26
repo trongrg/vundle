@@ -48,7 +48,7 @@ func! s:parse_name(arg)
   let arg = a:arg
   let git_proto = exists('g:vundle_default_git_proto') ? g:vundle_default_git_proto : 'https'
 
-  let branch = "master"
+  let branch = ""
 
   if arg =~ ':'
       let colonPos = stridx(a:arg, ':')

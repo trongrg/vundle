@@ -222,7 +222,13 @@ func! s:sync(bang, bundle) abort
     let get_current_sha = g:shellesc_cd(get_current_sha)
     let initial_sha = s:system(get_current_sha)[0:15]
   else
-    let cmd = 'git clone -b '.shellescape(a:bundle.branch).' --recursive '.shellescape(a:bundle.uri).' '.shellescape(a:bundle.path())
+    let cmd = 'git clone'
+
+    if !empty(a:bundle.branch)
+        let cmd = cmd . ' -b '.shellescape(a:bundle.branch)
+    endif
+
+    let cmd = cmd .' --recursive '.shellescape(a:bundle.uri).' '.shellescape(a:bundle.path())
     let initial_sha = ''
   endif
 
